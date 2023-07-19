@@ -1,34 +1,27 @@
 (function () {
   'use strict';
 
-  angular.module('LunchCheck', [])
-    .controller('LunchCheckController', LunchCheckController);
+  angular.module('ShoppingListCheckOff', [])
+    .controller('ToBuyController', ToBuyController);
 
-  LunchCheckController.$inject = ['$scope'];
+  ToBuyController.$inject = ['$scope'];
 
-  function LunchCheckController($scope) {
-    $scope.checkLunchItems = function () {
-      if (!$scope.lunchItems) {
-        $scope.message = 'Please enter data first';
-      } else {
-        var items = $scope.lunchItems.split(',');
-        var itemCount = countNonEmptyItems(items);
-        if (itemCount <= 3) {
-          $scope.message = 'Enjoy!';
-        } else {
-          $scope.message = 'Too much!';
-        }
-      }
+  function ToBuyController($scope) {
+    var buyCtrl = this;
+
+    buyCtrl.toBuyList = [
+      { name: "cookies", quantity: 10 },
+      { name: "apples", quantity: 5 },
+      { name: "milk", quantity: 2 },
+      { name: "chips", quantity: 3 },
+      { name: "bread", quantity: 1 }
+    ];
+
+    buyCtrl.alreadyBoughtList = [];
+
+    buyCtrl.buyItem = function (index) {
+      var item = buyCtrl.toBuyList.splice(index, 1)[0];
+      buyCtrl.alreadyBoughtList.push(item);
     };
-
-    function countNonEmptyItems(items) {
-      var count = 0;
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].trim() !== '') {
-          count++;
-        }
-      }
-      return count;
-    }
   }
 })();
